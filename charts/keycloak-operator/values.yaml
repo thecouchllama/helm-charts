@@ -1,0 +1,16 @@
+# Default values for keycloak-operator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+server:
+  annotations: {}
+  imagePullPolicy: IfNotPresent
+  replicas: 1
+  repository: "quay.io/keycloak/keycloak-operator"
+  tag: 14.0.0
+
+images:
+  keycloak: "quay.io/keycloak/keycloak:14.0.0"
+  keycloakInit: "quay.io/keycloak/keycloak-init-container:14.0.0"
+  backup: "quay.io/integreatly/backup-container:1.0.16"
+  postgres: "registry.redhat.io/rhel8/postgresql-10:1"

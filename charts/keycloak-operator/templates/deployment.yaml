@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "keycloak-operator.fullname" . }}
+spec:
+  replicas: {{ .Values.server.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "keycloak-operator.fullname" . }}
+  template:
+    metadata:
+    {{- with .Values.server.annotations }}
+      annotations:
+      {{- toYaml . | indent 8 }}
+    {{- end }}
+      labels:
+        app.kubernetes.io/name: {{ include "keycloak-operator.fullname" . }}
+    spec:
+      serviceAccountName: {{ include "keycloak-operator.fullname" . }}
+      containers:
+        - name: {{ include "keycloak-operator.fullname" . }}
+          image: "{{ .Values.server.repository }}:{{ .Values.server.tag }}"
+          command:
+          - keycloak-operator
+          imagePullPolicy: {{ .Values.server.imagePullPolicy }}
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "{{ include "keycloak-operator.fullname" . }}"
+            - name: RELATED_IMAGE_KEYCLOAK
+              value: "{{ .Values.images.keycloak }}"
+            - name: RELATED_IMAGE_KEYCLOAK_INIT_CONTAINER
+              value: "{{ .Values.images.keycloakInit }}"
+            - name: RELATED_IMAGE_RHMI_BACKUP_CONTAINER
+              value: "{{ .Values.images.backup }}"
+            - name: RELATED_IMAGE_POSTGRESQL
+              value: "{{ .Values.images.postgres }}"

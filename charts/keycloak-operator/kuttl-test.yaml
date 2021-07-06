@@ -1,0 +1,7 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestSuite
+commands:
+- command: kubectl create ns auth
+- command: helm install --wait --replace --namespace auth keycloak-operator .
+testDirs:
+- ./tests/integration

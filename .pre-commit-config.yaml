@@ -1,0 +1,17 @@
+repos:
+- repo: https://github.com/thecouchllama/pre-commit-hooks
+  rev: v0.3.4
+  hooks:
+    - id: helmlint
+- repo: https://github.com/thecouchllama/pre-commit-hooks
+  rev: v0.3.4
+  hooks:
+    - id: helm-unittest
+- repo: https://github.com/thecouchllama/pre-commit-hooks
+  rev: v0.3.4
+  hooks:
+    - id: helm-kuttl
+# - repo: https://github.com/adrienverge/yamllint
+#   rev: v1.26.1
+#   hooks:
+#     - id: yamllint

@@ -1,0 +1,14 @@
+suite: test deployment file
+templates:
+  - deployment.yaml
+tests:
+  - it: should work
+    asserts:
+      - isKind:
+          of: Deployment
+      - matchRegex:
+          path: metadata.name
+          pattern: keycloak-operator$
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: quay.io/keycloak/keycloak-operator:14.0.0
